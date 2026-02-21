@@ -15,25 +15,55 @@ export default function Navbar() {
 
   return (
     <header className="sticky top-0 z-50 bg-white/70 backdrop-blur-sm border-b border-slate-100">
-      <div className="mx-auto max-w-7xl px-6">
+      <div
+        className="mx-auto max-w-7xl px-6 navbar-bg-anim"
+        style={{
+          backgroundImage:
+            "url('https://media.licdn.com/dms/image/v2/D4E3DAQEMaz5qcZ5HUg/image-scale_191_1128/B4EZxsTGsuGsAg-/0/1771343474138/heirsinsurancegroup_cover?e=2147483647&v=beta&t=JyI9souO6q2AFsU2-FtilRVG0XjPuung0xgPGv0VClg')",
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: "calc(100% - 24px) center",
+          backgroundSize: "auto 70%",
+          animation: "bgShift 20s ease-in-out infinite",
+        }}
+      >
+        <style jsx>{`
+          @keyframes bgShift {
+            0% { background-position: calc(100% - 24px) center; }
+            50% { background-position: calc(80% - 24px) center; }
+            100% { background-position: calc(100% - 24px) center; }
+          }
+          /* Disable animation on small screens where it can cause visible jumps */
+          @media (max-width: 768px) {
+            .navbar-bg-anim { animation: none !important; background-position: 100% center !important; }
+          }
+          /* Reduce motion for users who prefer it */
+          @media (prefers-reduced-motion: reduce) {
+            .navbar-bg-anim { animation: none !important; }
+          }
+        `}</style>
         <div className="flex items-center justify-between h-20">
           <Link href="/" className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-sky-600 to-indigo-600 flex items-center justify-center text-white font-bold shadow-md transform-gpu transition-transform duration-300 hover:scale-105">AH</div>
+            <img
+              src="https://media.licdn.com/dms/image/v2/C4E0BAQF0faqsoz5SqA/company-logo_200_200/company-logo_200_200/0/1630620275967/heirs_life_logo?e=2147483647&v=beta&t=q2qJrNlN2K5ZHWLQ_aNO7fr26hIosaNm9C4XfqnwNpE"
+              alt="AskHeirs AI logo"
+              className="w-10 h-10 rounded-lg object-cover shadow-md transform-gpu transition-transform duration-300 hover:scale-105"
+              loading="lazy"
+            />
             <span className="text-2xl md:text-3xl font-extrabold tracking-tight text-sky-800 leading-none">
-              AskHeirs <span className="text-slate-400 font-medium">AI</span>
+              AskHeirs <span className="text-slate-400 font-medium">Ai</span>
             </span>
           </Link>
 
           <nav className="hidden md:flex items-center gap-8" aria-label="Primary navigation">
-            <Link href="#features" className="text-sm font-medium text-slate-700 hover:text-sky-700 transition-colors duration-200">Features</Link>
-            <Link href="#how" className="text-sm font-medium text-slate-700 hover:text-sky-700 transition-colors duration-200">How it Works</Link>
-            <Link href="#contact" className="text-sm font-medium text-slate-700 hover:text-sky-700 transition-colors duration-200">Contact</Link>
+            <Link href="#features" className="text-sm font-bold text-slate-700 hover:text-sky-500 transition-colors duration-200">Features</Link>
+            <Link href="#how" className="text-sm font-bold text-slate-700 hover:text-sky-500 transition-colors duration-200">How it Works</Link>
+            <Link href="#contact" className="text-sm font-bold text-slate-700 hover:text-sky-500 transition-colors duration-200">Contact</Link>
           </nav>
 
           <div className="flex items-center gap-4">
-            <Link href="/login" className="hidden sm:inline-flex text-sm font-medium text-slate-700 hover:text-sky-700 transition-colors duration-200">Log in</Link>
+            <Link href="/login" className="hidden sm:inline-flex text-sm font-bold text-slate-700 hover:text-sky-400 transition-colors duration-200">Log in</Link>
 
-            <Link href="/get-started" className="inline-flex items-center gap-2 px-4 py-2 rounded-md text-white bg-gradient-to-r from-sky-600 to-indigo-600 hover:from-sky-700 hover:to-indigo-700 shadow-sm transition-all duration-200 transform-gpu hover:-translate-y-1">
+            <Link href="/register" className="inline-flex items-center gap-2 px-4 py-2 rounded-md text-white bg-gradient-to-r from-sky-600 to-indigo-600 hover:from-sky-700 hover:to-indigo-700 shadow-sm transition-all duration-200 transform-gpu hover:-translate-y-1">
               Get Started
             </Link>
 
@@ -65,7 +95,7 @@ export default function Navbar() {
           <Link href="#features" className="py-2 text-slate-700 font-medium hover:text-sky-700 transition-colors">Features</Link>
           <Link href="#how" className="py-2 text-slate-700 font-medium hover:text-sky-700 transition-colors">How it Works</Link>
           <Link href="#contact" className="py-2 text-slate-700 font-medium hover:text-sky-700 transition-colors">Contact</Link>
-          <Link href="/get-started" className="mt-2 inline-flex items-center justify-center bg-gradient-to-r from-sky-600 to-indigo-600 text-white px-4 py-2 rounded-md shadow-sm">Get Started</Link>
+          <Link href="/register" className="mt-2 inline-flex items-center justify-center bg-gradient-to-r from-sky-600 to-indigo-600 text-white px-4 py-2 rounded-md shadow-sm">Get Started</Link>
         </div>
       </div>
     </header>

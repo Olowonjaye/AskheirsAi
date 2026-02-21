@@ -10,7 +10,7 @@ export default function CTASection() {
 
         <MotionReveal className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
           <Link href="/chat" className="inline-flex items-center justify-center rounded-md bg-white text-[color:var(--blue-700)] px-6 py-3 font-medium hover:opacity-95 shadow hover:shadow-lg transition-transform duration-200 transform-gpu hover:-translate-y-0.5">Talk to AskHeirs AI</Link>
-          <Link href="/get-started" className="inline-flex items-center justify-center rounded-md bg-[color:var(--blue-900)] text-white px-6 py-3 font-medium hover:opacity-95 shadow-sm hover:shadow-md transition-transform duration-200 transform-gpu hover:-translate-y-0.5">Get Started</Link>
+          <Link href="/register" className="inline-flex items-center justify-center rounded-md bg-[color:var(--blue-900)] text-white px-6 py-3 font-medium hover:opacity-95 shadow-sm hover:shadow-md transition-transform duration-200 transform-gpu hover:-translate-y-0.5">Get Started</Link>
         </MotionReveal>
       </div>
     </section>

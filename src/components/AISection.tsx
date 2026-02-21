@@ -6,7 +6,16 @@ export default function AISection() {
   ];
 
   return (
-    <section id="ai" className="py-20 bg-[color:var(--blue-50)]">
+    <section
+      id="ai"
+      className="py-20 bg-[color:var(--blue-50)]"
+      style={{
+        backgroundImage:
+          "url('https://www.heirsinsurancegroup.com/wp-content/uploads/2024/01/Heirs-Insurance.jpg')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
       <div className="mx-auto max-w-7xl px-6 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           <div className="lg:col-span-6">

@@ -8,14 +8,23 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError(null);
-    const res = await signIn("credentials", { redirect: false, email, password });
-    if (res?.error) return setError(res.error);
-    router.push("/chat");
+    try {
+      setLoading(true);
+      const res = await signIn("credentials", { redirect: false, email, password });
+      if (res?.error) return setError(res.error || "Sign in failed");
+      if (res?.ok) return router.push("/chat");
+      setError("Sign in failed");
+    } catch (err) {
+      setError((err as Error)?.message ?? "Sign in failed");
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -25,7 +34,7 @@ export default function LoginPage() {
         {error && <div className="text-red-600 mb-2">{error}</div>}
         <input value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" type="email" className="w-full mb-2 p-2 border rounded" />
         <input value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" type="password" className="w-full mb-4 p-2 border rounded" />
-        <button className="w-full bg-green-600 text-white py-2 rounded">Sign In</button>
+        <button disabled={loading} className="w-full bg-green-600 text-white py-2 rounded">{loading ? "Signing in..." : "Sign In"}</button>
       </form>
     </main>
   );

@@ -15,25 +15,29 @@ export default function HowItWorks() {
         <p className="mt-4 text-center text-slate-600 max-w-2xl mx-auto">A simple flow to get fast, reliable insurance guidance from AskHeirs AI.</p>
 
         <div className="mt-12 grid gap-8 grid-cols-1 md:grid-cols-4">
-          <MotionReveal className="bg-white p-6 rounded-2xl shadow-sm hover:shadow-lg transition-shadow transform-gpu hover:-translate-y-1">
-            <h3 className="text-lg font-semibold text-slate-800">1. Start a Conversation</h3>
-            <p className="mt-2 text-sm text-slate-600">Tell AskHeirs about your policy question or situation.</p>
-          </MotionReveal>
+          {steps.map((s, idx) => {
+            const imageFor = (title: string) => {
+              const slug = title
+                .toLowerCase()
+                .replace(/[^a-z0-9 ]/g, "")
+                .replace(/\s+/g, " ")
+                .trim()
+                .replace(/answers$/, "answer");
+              return `/images/${slug}.jpg`;
+            };
 
-          <MotionReveal className="bg-white p-6 rounded-2xl shadow-sm hover:shadow-lg transition-shadow transform-gpu hover:-translate-y-1">
-            <h3 className="text-lg font-semibold text-slate-800">2. AI Summarizes & Guides</h3>
-            <p className="mt-2 text-sm text-slate-600">AI gives clear steps, next actions, and document lists.</p>
-          </MotionReveal>
-
-          <MotionReveal className="bg-white p-6 rounded-2xl shadow-sm hover:shadow-lg transition-shadow transform-gpu hover:-translate-y-1">
-            <h3 className="text-lg font-semibold text-slate-800">3. Track & Save</h3>
-            <p className="mt-2 text-sm text-slate-600">Save conversations to your account for later reference.</p>
-          </MotionReveal>
-
-          <MotionReveal className="bg-white p-6 rounded-2xl shadow-sm hover:shadow-lg transition-shadow transform-gpu hover:-translate-y-1">
-            <h3 className="text-lg font-semibold text-slate-800">4. Human Escalation</h3>
-            <p className="mt-2 text-sm text-slate-600">If needed, escalate to an agent with conversation context.</p>
-          </MotionReveal>
+            return (
+              <MotionReveal key={s.title} className="bg-white p-6 rounded-2xl shadow-sm hover:shadow-lg transition-shadow transform-gpu hover:-translate-y-1">
+                <div className="flex items-start gap-4">
+                  <img src={imageFor(s.title)} alt={s.title} className="w-12 h-12 object-contain rounded-md" />
+                  <div>
+                    <h3 className="text-lg font-semibold text-slate-800">{idx + 1}. {s.title}</h3>
+                    <p className="mt-2 text-sm text-slate-600">{s.desc}</p>
+                  </div>
+                </div>
+              </MotionReveal>
+            );
+          })}
         </div>
       </div>
     </section>
