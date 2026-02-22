@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 export default function Navbar() {
   const { data: session, status } = useSession();
   const [open, setOpen] = useState(false);
+  const [profileOpen, setProfileOpen] = useState(false);
 
   useEffect(() => {
     // close mobile menu on route/session change
@@ -19,19 +20,19 @@ export default function Navbar() {
       <div
         className="mx-auto max-w-7xl px-6 navbar-bg-anim"
         style={{
-          backgroundImage:
-            "url('https://media.licdn.com/dms/image/v2/D4E3DAQEMaz5qcZ5HUg/image-scale_191_1128/B4EZxsTGsuGsAg-/0/1771343474138/heirsinsurancegroup_cover?e=2147483647&v=beta&t=JyI9souO6q2AFsU2-FtilRVG0XjPuung0xgPGv0VClg')",
-          backgroundRepeat: "no-repeat",
-          backgroundPosition: "calc(100% - 24px) center",
-          backgroundSize: "auto 70%",
-          animation: "bgShift 20s ease-in-out infinite",
+            backgroundImage:
+              "url('https://media.licdn.com/dms/image/v2/D4E3DAQEMaz5qcZ5HUg/image-scale_191_1128/B4EZxsTGsuGsAg-/0/1771343474138/heirsinsurancegroup_cover?e=2147483647&v=beta&t=JyI9souO6q2AFsU2-FtilRVG0XjPuung0xgPGv0VClg')",
+            backgroundRepeat: "no-repeat",
+            backgroundPosition: "calc(0% + 24px) center",
+            backgroundSize: "auto 70%",
+            animation: "bgShift 12s ease-in-out infinite",
         }}
       >
         <style jsx>{`
           @keyframes bgShift {
-            0% { background-position: calc(100% - 24px) center; }
-            50% { background-position: calc(80% - 24px) center; }
-            100% { background-position: calc(100% - 24px) center; }
+              0% { background-position: calc(0% + 24px) center; }
+              50% { background-position: center center; }
+              100% { background-position: calc(0% + 24px) center; }
           }
           /* Disable animation on small screens where it can cause visible jumps */
           @media (max-width: 768px) {
@@ -65,20 +66,19 @@ export default function Navbar() {
           <div className="flex items-center gap-4">
             {session?.user ? (
               <div className="relative hidden sm:flex items-center gap-3">
-                <button onClick={() => {}} className="text-sm font-medium text-slate-700 px-3 py-1 rounded flex items-center gap-2" aria-haspopup="true">
+                <button onClick={() => setProfileOpen((s) => !s)} className="text-sm font-medium text-slate-700 px-3 py-1 rounded flex items-center gap-2" aria-haspopup="true" aria-expanded={profileOpen}>
                   <div className="w-8 h-8 rounded-full overflow-hidden">
                     <Image src={session.user.image || "/images/i.png"} alt="avatar" width={32} height={32} className="object-cover" />
                   </div>
                   <span>Hi, {session.user.name ?? session.user.email}</span>
                 </button>
                 <div className="relative">
-                  <details className="relative">
-                    <summary className="sr-only">Open profile menu</summary>
+                  {profileOpen && (
                     <div className="absolute right-0 mt-2 w-48 bg-white border rounded-md shadow-lg py-1">
                       <Link href="/profile" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">Account</Link>
                       <button onClick={() => signOut({ callbackUrl: "/" })} className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">Sign out</button>
                     </div>
-                  </details>
+                  )}
                 </div>
               </div>
             ) : (

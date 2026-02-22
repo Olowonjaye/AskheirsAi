@@ -5,6 +5,7 @@ export interface Message {
   role: Role;
   content: string;
   timestamp?: number;
+  attachments?: { type: string; name?: string; dataUrl?: string; url?: string }[];
 }
 
 export async function streamChat(
