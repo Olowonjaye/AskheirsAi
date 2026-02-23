@@ -34,6 +34,9 @@ export default function LoginPage() {
         {error && <div className="text-red-600 mb-2">{error}</div>}
         <input value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" type="email" className="w-full mb-2 p-2 border rounded" />
         <input value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" type="password" className="w-full mb-4 p-2 border rounded" />
+        <div className="text-right mb-4">
+          <a href="/forgot-password" className="text-sm text-blue-600 hover:underline">Forgot password?</a>
+        </div>
         <button disabled={loading} className="w-full bg-green-600 text-white py-2 rounded">{loading ? "Signing in..." : "Sign In"}</button>
       </form>
     </main>

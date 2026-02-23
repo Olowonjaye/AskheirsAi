@@ -1,4 +1,4 @@
-import { getOpenAI } from "@/lib/openai";
+import { generateFromMessages } from "@/lib/googleai";
 import { ratelimit } from "@/lib/rate-limit";
 import { getToken } from "next-auth/jwt";
 import processChat from "@/services/chat.service";
@@ -13,20 +13,21 @@ export async function POST(req: NextRequest) {
   const { success } = await ratelimit.limit(key as string);
   if (!success) return new Response(JSON.stringify({ error: "Too many requests" }), { status: 429 });
 
-  const openai = getOpenAI();
-  const stream = await openai.chat.completions.create({
-    model: "gpt-4o-mini",
-    messages,
-    stream: true,
-  });
-
+  // Call Google AI and stream the resulting full text in chunks to the client.
+  const text = await generateFromMessages(messages);
   const encoder = new TextEncoder();
-
   const readableStream = new ReadableStream({
-    async start(controller) {
-      for await (const chunk of stream) {
-        const content = chunk.choices[0]?.delta?.content;
-        if (content) controller.enqueue(encoder.encode(content));
+    start(controller) {
+      try {
+        // chunk size chosen to provide responsive front-end streaming
+        const chunkSize = 1024;
+        for (let i = 0; i < text.length; i += chunkSize) {
+          const part = text.slice(i, i + chunkSize);
+          controller.enqueue(encoder.encode(part));
+        }
+      } catch (e) {
+        controller.error(e as any);
+        return;
       }
       controller.close();
     },

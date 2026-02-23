@@ -20,11 +20,11 @@ export default function AISection() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           <div className="lg:col-span-6">
             <h2 className="text-3xl sm:text-4xl font-extrabold text-[color:var(--blue-900)]">Meet AskHeirs AI</h2>
-            <p className="mt-4 text-slate-700 max-w-xl">A conversational assistant that helps customers understand policies, check renewals, and guides them during claims.</p>
+            <p className="mt-4 text-red-600 max-w-xl font-bold fade-up">A conversational assistant that helps customers understand policies, check renewals, and guides them during claims.</p>
 
-            <ul className="mt-6 space-y-3 text-slate-700 pl-5">
+            <ul className="mt-6 space-y-3 text-red-600 pl-5 font-bold staggered-list">
               {bullets.map((b) => (
-                <li key={b} className="relative pl-5 before:absolute before:left-0 before:top-1 before:h-2 before:w-2 before:rounded-full before:bg-[color:var(--blue-600)]">{b}</li>
+                <li key={b} className="relative pl-5 before:absolute before:left-0 before:top-1 before:h-2 before:w-2 before:rounded-full before:bg-red-600">{b}</li>
               ))}
             </ul>
           </div>

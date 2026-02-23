@@ -1,5 +1,5 @@
 import clientPromise from "@/lib/db";
-import { getOpenAI } from "@/lib/openai";
+import { generateFromMessages } from "@/lib/googleai";
 
 type ProcessChatOpts = {
   userId?: string | null;
@@ -7,14 +7,7 @@ type ProcessChatOpts = {
 };
 
 export async function processChat(message: string, opts: ProcessChatOpts = {}) {
-  const openai = getOpenAI();
-  const completion = await openai.chat.completions.create({
-    model: "gpt-4o-mini",
-    messages: [{ role: "user", content: message }],
-  });
-
-  const answer =
-    completion.choices[0]?.message?.content || "No response generated.";
+  const answer = await generateFromMessages([{ role: "user", content: message }]);
 
   const client = await clientPromise;
   const db = client.db("askheirs");

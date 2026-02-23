@@ -63,3 +63,27 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .chat-entrance { animation: none !important; opacity: 1 !important; transform: none !important; }
 }
+
+/* Fade-up animation used for headings, paragraphs */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(8px) scale(.995); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+.fade-up {
+  animation: fadeUp 700ms cubic-bezier(.2,.8,.2,1) both;
+}
+
+/* Staggered list entrance for bullet items */
+.staggered-list li {
+  opacity: 0;
+  transform: translateY(6px);
+  animation: fadeUp 700ms cubic-bezier(.2,.8,.2,1) both;
+}
+.staggered-list li:nth-child(1) { animation-delay: 0.05s; }
+.staggered-list li:nth-child(2) { animation-delay: 0.15s; }
+.staggered-list li:nth-child(3) { animation-delay: 0.25s; }
+.staggered-list li:hover { transform: translateY(-2px); transition: transform 180ms ease; }
+
+@media (prefers-reduced-motion: reduce) {
+  .fade-up, .staggered-list li { animation: none !important; opacity: 1 !important; transform: none !important; }
+}
