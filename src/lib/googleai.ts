@@ -1,5 +1,3 @@
-import fetch from "node-fetch";
-
 export async function generateFromMessages(messages: { role?: string; content?: string }[]): Promise<string> {
   const apiKey = process.env.GOOGLE_AI_API_KEY;
   if (!apiKey) throw new Error("GOOGLE_AI_API_KEY is not defined");
