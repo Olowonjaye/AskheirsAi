@@ -61,7 +61,22 @@ export default function ChatBox() {
     setMessages((prev) => [...prev, assistantMessage]);
 
     await streamChat(updatedMessages, (chunk) => {
-      assistantMessage.content += chunk;
+      // Defensive: if the chunk looks like the full JSON response, parse and extract content
+      let text = chunk;
+      try {
+        if (typeof chunk === "string" && chunk.trim().startsWith("{")) {
+          const parsed = JSON.parse(chunk);
+          if (parsed?.success === true && parsed?.data?.content) {
+            text = String(parsed.data.content);
+          } else if (typeof parsed?.reply === "string") {
+            text = parsed.reply;
+          }
+        }
+      } catch (e) {
+        // ignore parse errors and treat as plain text
+      }
+
+      assistantMessage.content += text;
       setMessages((prev) => {
         const newMessages = [...prev];
         newMessages[newMessages.length - 1] = { ...assistantMessage };
@@ -102,7 +117,22 @@ export default function ChatBox() {
     setMessages((prev) => [...prev, assistantMessage]);
 
     await streamChat(updatedMessages, (chunk) => {
-      assistantMessage.content += chunk;
+      // Defensive parsing like in sendMessage
+      let text = chunk;
+      try {
+        if (typeof chunk === "string" && chunk.trim().startsWith("{")) {
+          const parsed = JSON.parse(chunk);
+          if (parsed?.success === true && parsed?.data?.content) {
+            text = String(parsed.data.content);
+          } else if (typeof parsed?.reply === "string") {
+            text = parsed.reply;
+          }
+        }
+      } catch (e) {
+        // ignore parse errors
+      }
+
+      assistantMessage.content += text;
       setMessages((prev) => {
         const newMessages = [...prev];
         newMessages[newMessages.length - 1] = { ...assistantMessage };

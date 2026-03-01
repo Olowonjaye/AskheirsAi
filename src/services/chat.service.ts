@@ -10,8 +10,8 @@ export async function processChat(message: string, opts: ProcessChatOpts = {}, a
   // If caller supplied extracted assistantText, use it. Otherwise derive via provider call.
   let answer = assistantText ?? null;
   if (!answer) {
-    const raw = await generateFromMessages([{ role: "user", content: message }]);
-    answer = extractGeminiText(raw) ?? String(raw?.text ?? raw?.output_text ?? "");
+    const result = await generateFromMessages([{ role: "user", content: message }]);
+    answer = result.text ?? String(result.raw?.output_text ?? result.raw?.candidates?.[0]?.message?.content ?? "");
   }
 
   const client = await clientPromise;

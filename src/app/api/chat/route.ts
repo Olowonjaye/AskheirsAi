@@ -26,12 +26,8 @@ export async function POST(req: NextRequest) {
   const key = String(token?.id ?? req.headers.get("x-forwarded-for") ?? "anonymous");
   const { success } = await ratelimit.limit(key as string);
   if (!success) return new Response(JSON.stringify({ error: "Too many requests" }), { status: 429 });
-    // Call Google AI and get raw provider response
-    const raw = await generateFromMessages(messages);
-
-    // Extract normalized assistant text
-    const { extractGeminiText } = await import("@/lib/googleai");
-    const text = extractGeminiText(raw) ?? null;
+    // Call Google AI and get raw provider response + pre-extracted text
+    const { raw, text } = await generateFromMessages(messages);
 
     if (!text) {
       console.error("/api/chat: unable to extract text from provider response", { raw });

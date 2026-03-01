@@ -28,8 +28,28 @@ export async function streamChat(
   const contentType = response.headers.get("content-type") || "";
   if (!response.body || contentType.includes("application/json")) {
     const json = await response.json().catch(() => null);
-    const reply = json?.reply ?? (typeof json === "string" ? json : JSON.stringify(json ?? ""));
-    if (reply) onChunk(String(reply));
+    if (!json) return;
+    // New normalized shape: { success: true, data: { role, content } }
+    if (json?.success === true && json?.data && typeof json.data.content === "string") {
+      onChunk(json.data.content);
+      return;
+    }
+    // Error shape: { success: false, error: '...' }
+    if (json?.success === false) {
+      throw new Error(String(json?.error ?? "Request failed"));
+    }
+    // Backwards compatibility: legacy reply field
+    if (typeof json?.reply === "string") {
+      onChunk(json.reply);
+      return;
+    }
+    // Fallback: if the JSON is a string or contains a top-level text, stringify safely
+    if (typeof json === "string") {
+      onChunk(json);
+      return;
+    }
+    // Nothing usable found
+    throw new Error("Unexpected API response shape");
     return;
   }
 
